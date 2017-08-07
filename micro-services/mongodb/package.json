@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "koa": "^2.3.0",
-    "koa-mongo": "^1.2.1"
+    "koa-mongo": "^1.2.1",
+    "restify-clients": "^1.5.0"
   }
 }
