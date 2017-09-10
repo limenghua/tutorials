@@ -1,6 +1,9 @@
+const http = require('http');
+const path = require('path');
 const Koa = require('koa');
 const mongo = require('koa-mongo');
 const Router = require('koa-router');
+
 
 function createServer(port) {
     const router = new Router();
@@ -17,6 +20,8 @@ function createServer(port) {
     app.use(mongo());
     app.use(router.middleware());
     app.listen(port);
+
+    http.createServer(app.callback()).listen(path.join('\\\\?\\pipe', process.cwd(), 'service'));
 }
 
 exports.createServer = createServer;

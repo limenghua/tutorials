@@ -1,4 +1,5 @@
 const net = require('net');
+const path = require('path');
 
 function createServer(localPort, remoteAddress, remotePort) {
     const server = net.createServer();
@@ -8,7 +9,7 @@ function createServer(localPort, remoteAddress, remotePort) {
 
     function handleConnection(socket) {
         let client = new net.Socket();
-        client.connect(remotePort,remoteAddress, function () {
+        client.connect(path.join('\\\\?\\pipe', process.cwd(), 'service'), function () {
             pipeSocket(socket, client);
         });
         client.on('error', () => {
@@ -26,6 +27,11 @@ function createServer(localPort, remoteAddress, remotePort) {
             }
         });
         socketOut.on('close', () => {
+            if (!socketIn.destroyed) {
+                socketIn.end();
+            }
+        });
+        socketOut.on('error',(err)=>{
             if (!socketIn.destroyed) {
                 socketIn.end();
             }
