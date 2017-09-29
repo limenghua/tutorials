@@ -1,0 +1,77 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation Sample Template WordPress_Single_Instance: WordPress is web software you can use to create a beautiful website or blog. This template installs WordPress with a local MySQL database for storage. It demonstrates using the AWS CloudFormation bootstrap scripts to deploy WordPress. **WARNING** This template creates an Amazon EC2 instance. You will be billed for the AWS resources used if you create a stack from this template.",
+  
+    "Resources": {
+        "WebServerSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable HTTP access via port 80 locked down to the load balancer + SSH access",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "0",
+                        "ToPort": "65535",
+                        "CidrIp":"0.0.0.0/0"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e5df6f38-76a8-42bc-98c0-4e75c7026e74"
+                }
+            }
+        },
+        "IEWebServer": {
+            "Type": "AWS::EC2::Instance",
+              
+            "Properties": {
+                "ImageId": "ami-3b926041",
+                "InstanceType": "t2.micro",
+                "SecurityGroups": [
+                    {
+                        "Ref": "WebServerSecurityGroup"
+                    }
+                ],
+                "KeyName": "lab-1-key",
+                "SubnetId":"subnet-eb3f01b1" 
+            }
+        },
+        "RabbitEsRedis": {
+          "Type": "AWS::EC2::Instance",
+            
+          "Properties": {
+              "ImageId": "ami-7791630d",
+              "InstanceType": "t2.micro",
+              "SecurityGroups": [
+                  {
+                      "Ref": "WebServerSecurityGroup"
+                  }
+              ],
+              "KeyName": "lab-1-key",
+              "SubnetId":"subnet-eb3f01b1" 
+          }
+      }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "a2c52973-5a63-4471-a0af-bdc8dff7b6bf": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 169,
+                    "y": 184.625
+                },
+                "z": 0
+            }
+        }
+    }
+  }
